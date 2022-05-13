@@ -17,7 +17,7 @@ function useLocalStorageState(
       // the try/catch is here in case the localStorage value was set before
       // we had the serialization in place (like we do in previous extra credits)
       try {
-        return deserialize(valueInLocalStorage)
+        return deserialize(valueInLocalStorage) // want to deserialize if is a string to remove any extra quotes
       } catch (error) {
         window.localStorage.removeItem(key)
       }
@@ -25,7 +25,7 @@ function useLocalStorageState(
     return typeof defaultValue === 'function' ? defaultValue() : defaultValue
   })
 
-  const prevKeyRef = React.useRef(key)
+  const prevKeyRef = React.useRef(key) // watch if key name changes
 
   // Check the example at src/examples/local-state-key-change.js to visualize a key change
   React.useEffect(() => {
@@ -34,8 +34,8 @@ function useLocalStorageState(
       window.localStorage.removeItem(prevKey)
     }
     prevKeyRef.current = key
-    window.localStorage.setItem(key, serialize(state))
-  }, [key, state, serialize])
+    window.localStorage.setItem(key, serialize(state)) // want to serialize if is a number
+  }, [key, state, serialize]) // watch if the function serialize changes
 
   return [state, setState]
 }
